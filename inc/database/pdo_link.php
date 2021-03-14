@@ -155,6 +155,12 @@ if (function_exists('insertPost')) {
 		$stm->execute(array($keyword['id'], $keyword['text'], $keyword['action']));
 	}
 
+	function migrateLog($log) {
+		global $dbh;
+		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES (?, ?, ?, ?)");
+		$stm->execute(array($log['id'], $log['timestamp'], $log['staff'], $log['message']));
+	}
+
 	function migratePost($post) {
 		global $dbh;
 		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBPOSTS . " (id, parent, timestamp, bumped, ip, name, tripcode, email, nameblock, subject, message, password, file, file_hex, file_original, file_size, file_size_formatted, image_width, image_height, thumb, thumb_width, thumb_height, moderated, stickied, locked) " .

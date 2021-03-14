@@ -97,6 +97,10 @@ if (function_exists('insertPost')) {
 		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBKEYWORDS . " (id, text, action) VALUES ('" . sqlite_escape_string($keyword['id']) . "', '" . sqlite_escape_string($keyword['text']) . "', '" . sqlite_escape_string($keyword['action']) . "')");
 	}
 
+	function migrateLog($log) {
+		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . sqlite_escape_string($log['id']) . "', '" . sqlite_escape_string($log['timestamp']) . "', '" . sqlite_escape_string($log['staff']) . "', '" . sqlite_escape_string($log['message']) . "')");
+	}
+
 	function migratePost($post) {
 		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBPOSTS . " (id, parent, timestamp, bumped, ip, name, tripcode, email, nameblock, subject, message, password, file, file_hex, file_original, file_size, file_size_formatted, image_width, image_height, thumb, thumb_width, thumb_height, moderated, stickied, locked) VALUES (" . $post['id'] . ", " . $post['parent'] . ", " . $post['timestamp'] . ", " . $post['bumped'] . ", '" . sqlite_escape_string($post['ip']) . "', '" . sqlite_escape_string($post['name']) . "', '" . sqlite_escape_string($post['tripcode']) . "',	'" . sqlite_escape_string($post['email']) . "',	'" . sqlite_escape_string($post['nameblock']) . "', '" . sqlite_escape_string($post['subject']) . "', '" . sqlite_escape_string($post['message']) . "', '" . sqlite_escape_string($post['password']) . "', '" . $post['file'] . "', '" . $post['file_hex'] . "', '" . sqlite_escape_string($post['file_original']) . "', " . $post['file_size'] . ", '" . $post['file_size_formatted'] . "', " . $post['image_width'] . ", " . $post['image_height'] . ", '" . $post['thumb'] . "', " . $post['thumb_width'] . ", " . $post['thumb_height'] . ", " . $post['moderated'] . ", " . $post['stickied'] . ", " . $post['locked'] . ")");
 	}

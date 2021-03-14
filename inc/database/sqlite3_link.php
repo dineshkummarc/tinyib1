@@ -101,6 +101,11 @@ if (function_exists('insertPost')) {
 		$db->exec("INSERT INTO " . TINYIB_DBKEYWORDS . " (id, text, action) VALUES ('" . $db->escapeString($keyword['id']) . "', '" . $db->escapeString($keyword['text']) . "', '" . $db->escapeString($keyword['action']) . "')");
 	}
 
+	function migrateLog($log) {
+		global $db;
+		$db->exec("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . $db->escapeString($log['id']) . "', '" . $db->escapeString($log['timestamp']) . "', '" . $db->escapeString($log['staff']) . "', '" . $db->escapeString($log['message']) . "')");
+	}
+
 	function migratePost($post) {
 		global $db;
 		$db->exec("INSERT INTO " . TINYIB_DBPOSTS . " (id, parent, timestamp, bumped, ip, name, tripcode, email, nameblock, subject, message, password, file, file_hex, file_original, file_size, file_size_formatted, image_width, image_height, thumb, thumb_width, thumb_height, moderated, stickied, locked) VALUES (" . $post['id'] . ", " . $post['parent'] . ", " . $post['timestamp'] . ", " . $post['bumped'] . ", '" . $db->escapeString($post['ip']) . "', '" . $db->escapeString($post['name']) . "', '" . $db->escapeString($post['tripcode']) . "',	'" . $db->escapeString($post['email']) . "',	'" . $db->escapeString($post['nameblock']) . "', '" . $db->escapeString($post['subject']) . "', '" . $db->escapeString($post['message']) . "', '" . $db->escapeString($post['password']) . "', '" . $post['file'] . "', '" . $post['file_hex'] . "', '" . $db->escapeString($post['file_original']) . "', " . $post['file_size'] . ", '" . $post['file_size_formatted'] . "', " . $post['image_width'] . ", " . $post['image_height'] . ", '" . $post['thumb'] . "', " . $post['thumb_width'] . ", " . $post['thumb_height'] . ", " . $post['moderated'] . ", " . $post['stickied'] . ", " . $post['locked'] . ")");

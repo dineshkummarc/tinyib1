@@ -711,7 +711,10 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 						}
 						require 'inc/database/' . TINYIB_DBMIGRATE . '_link.php';
 
-						// TODO migrate accounts
+						$accounts = allAccounts();
+						foreach ($accounts as $account) {
+							migrateAccount($account);
+						}
 
 						$bans = allBans();
 						foreach ($bans as $ban) {
@@ -721,6 +724,11 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 						$keywords = allKeywords();
 						foreach ($keywords as $keyword) {
 							migrateKeyword($keyword);
+						}
+
+						$logs = allLogs();
+						foreach ($logs as $log) {
+							migrateLog($log);
 						}
 
 						$threads = allThreads();

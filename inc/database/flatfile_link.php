@@ -75,69 +75,78 @@ if (file_exists('inc/flatfile/' . POSTS_FILE)) {
 }
 
 if (function_exists('insertPost')) {
-	function migrateAccount($newaccount) {
+	function migrateAccount($a) {
 		$account = array();
-		$account[ACCOUNT_ID] = $newaccount['id'];
-		$account[ACCOUNT_USERNAME] = $newaccount['username'];
-		$account[ACCOUNT_PASSWORD] = $newaccount['password'];
-		$account[ACCOUNT_ROLE] = $newaccount['role'];
-		$account[ACCOUNT_LASTACTIVE] = $newaccount['lastactive'];
+		$account[ACCOUNT_ID] = $a['id'];
+		$account[ACCOUNT_USERNAME] = $a['username'];
+		$account[ACCOUNT_PASSWORD] = $a['password'];
+		$account[ACCOUNT_ROLE] = $a['role'];
+		$account[ACCOUNT_LASTACTIVE] = $a['lastactive'];
 		$GLOBALS['db']->insertWithAutoId(ACCOUNTS_FILE, ACCOUNT_ID, $account);
 	}
 
-	function migrateBan($newban) {
+	function migrateBan($b) {
 		$ban = array();
-		$ban[BAN_ID] = $newban['id'];
-		$ban[BAN_IP] = $newban['ip'];
-		$ban[BAN_TIMESTAMP] = $newban['timestamp'];
-		$ban[BAN_EXPIRE] = $newban['expire'];
-		$ban[BAN_REASON] = $newban['reason'];
+		$ban[BAN_ID] = $b['id'];
+		$ban[BAN_IP] = $b['ip'];
+		$ban[BAN_TIMESTAMP] = $b['timestamp'];
+		$ban[BAN_EXPIRE] = $b['expire'];
+		$ban[BAN_REASON] = $b['reason'];
 		$GLOBALS['db']->insertWithAutoId(BANS_FILE, BAN_ID, $ban);
 	}
 
-	function migrateKeyword($newkeyword) {
+	function migrateKeyword($k) {
 		$keyword = array();
-		$keyword[KEYWORD_ID] = $newkeyword['id'];
-		$keyword[KEYWORD_TEXT] = $newkeyword['text'];
-		$keyword[KEYWORD_ACTION] = $newkeyword['action'];
+		$keyword[KEYWORD_ID] = $k['id'];
+		$keyword[KEYWORD_TEXT] = $k['text'];
+		$keyword[KEYWORD_ACTION] = $k['action'];
 		$GLOBALS['db']->insertWithAutoId(KEYWORDS_FILE, KEYWORD_ID, $keyword);
 	}
 
-	function migratePost($newpost) {
+	function migrateLog($l) {
+		$log = array();
+		$log[LOG_ID] = $l['id'];
+		$log[LOG_TIMESTAMP] = $l['timestamp'];
+		$log[LOG_STAFF] = $l['staff'];
+		$log[LOG_MESSAGE] = $l['message'];
+		$GLOBALS['db']->insertWithAutoId(LOGS_FILE, LOG_ID, $log);
+	}
+
+	function migratePost($p) {
 		$post = array();
-		$post[POST_ID] = $newpost['id'];
-		$post[POST_PARENT] = $newpost['parent'];
-		$post[POST_TIMESTAMP] = $newpost['timestamp'];
-		$post[POST_BUMPED] = $newpost['bumped'];
-		$post[POST_IP] = $newpost['ip'];
-		$post[POST_NAME] = $newpost['name'];
-		$post[POST_TRIPCODE] = $newpost['tripcode'];
-		$post[POST_EMAIL] = $newpost['email'];
-		$post[POST_NAMEBLOCK] = $newpost['nameblock'];
-		$post[POST_SUBJECT] = $newpost['subject'];
-		$post[POST_MESSAGE] = $newpost['message'];
-		$post[POST_PASSWORD] = $newpost['password'];
-		$post[POST_FILE] = $newpost['file'];
-		$post[POST_FILE_HEX] = $newpost['file_hex'];
-		$post[POST_FILE_ORIGINAL] = $newpost['file_original'];
-		$post[POST_FILE_SIZE] = $newpost['file_size'];
-		$post[POST_FILE_SIZE_FORMATTED] = $newpost['file_size_formatted'];
-		$post[POST_IMAGE_WIDTH] = $newpost['image_width'];
-		$post[POST_IMAGE_HEIGHT] = $newpost['image_height'];
-		$post[POST_THUMB] = $newpost['thumb'];
-		$post[POST_THUMB_WIDTH] = $newpost['thumb_width'];
-		$post[POST_THUMB_HEIGHT] = $newpost['thumb_height'];
-		$post[POST_MODERATED] = $newpost['moderated'];
-		$post[POST_STICKIED] = $newpost['stickied'];
-		$post[POST_LOCKED] = $newpost['locked'];
+		$post[POST_ID] = $p['id'];
+		$post[POST_PARENT] = $p['parent'];
+		$post[POST_TIMESTAMP] = $p['timestamp'];
+		$post[POST_BUMPED] = $p['bumped'];
+		$post[POST_IP] = $p['ip'];
+		$post[POST_NAME] = $p['name'];
+		$post[POST_TRIPCODE] = $p['tripcode'];
+		$post[POST_EMAIL] = $p['email'];
+		$post[POST_NAMEBLOCK] = $p['nameblock'];
+		$post[POST_SUBJECT] = $p['subject'];
+		$post[POST_MESSAGE] = $p['message'];
+		$post[POST_PASSWORD] = $p['password'];
+		$post[POST_FILE] = $p['file'];
+		$post[POST_FILE_HEX] = $p['file_hex'];
+		$post[POST_FILE_ORIGINAL] = $p['file_original'];
+		$post[POST_FILE_SIZE] = $p['file_size'];
+		$post[POST_FILE_SIZE_FORMATTED] = $p['file_size_formatted'];
+		$post[POST_IMAGE_WIDTH] = $p['image_width'];
+		$post[POST_IMAGE_HEIGHT] = $p['image_height'];
+		$post[POST_THUMB] = $p['thumb'];
+		$post[POST_THUMB_WIDTH] = $p['thumb_width'];
+		$post[POST_THUMB_HEIGHT] = $p['thumb_height'];
+		$post[POST_MODERATED] = $p['moderated'];
+		$post[POST_STICKIED] = $p['stickied'];
+		$post[POST_LOCKED] = $p['locked'];
 		$GLOBALS['db']->insertWithAutoId(POSTS_FILE, POST_ID, $post);
 	}
 
-	function migrateReport($newreport) {
+	function migrateReport($r) {
 		$report = array();
-		$report[REPORT_ID] = $newreport['id'];
-		$report[REPORT_IP] = $newreport['ip'];
-		$report[REPORT_POST] = $newreport['post'];
+		$report[REPORT_ID] = $r['id'];
+		$report[REPORT_IP] = $r['ip'];
+		$report[REPORT_POST] = $r['post'];
 		$GLOBALS['db']->insertWithAutoId(REPORTS_FILE, REPORT_ID, $report);
 	}
 }

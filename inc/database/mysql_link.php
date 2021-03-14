@@ -63,6 +63,10 @@ if (function_exists('insertPost')) {
 		mysql_query("INSERT INTO " . TINYIB_DBKEYWORDS . " (id, text, action) VALUES ('" . mysql_real_escape_string($keyword['id']) . "', '" . mysql_real_escape_string($keyword['text']) . "', '" . mysql_real_escape_string($keyword['action']) . "')");
 	}
 
+	function migrateLog($log) {
+		mysql_query("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . mysql_real_escape_string($log['id']) . "', '" . mysql_real_escape_string($log['timestamp']) . "', '" . mysql_real_escape_string($log['staff']) . "', '" . mysql_real_escape_string($log['message']) . "')");
+	}
+
 	function migratePost($post) {
 		mysql_query("INSERT INTO " . TINYIB_DBPOSTS . " (id, parent, timestamp, bumped, ip, name, tripcode, email, nameblock, subject, message, password, file, file_hex, file_original, file_size, file_size_formatted, image_width, image_height, thumb, thumb_width, thumb_height, moderated, stickied, locked) VALUES (" . $post['id'] . ", " . $post['parent'] . ", " . $post['timestamp'] . ", " . $post['bumped'] . ", '" . mysql_real_escape_string($post['ip']) . "', '" . mysql_real_escape_string($post['name']) . "', '" . mysql_real_escape_string($post['tripcode']) . "',	'" . mysql_real_escape_string($post['email']) . "',	'" . mysql_real_escape_string($post['nameblock']) . "', '" . mysql_real_escape_string($post['subject']) . "', '" . mysql_real_escape_string($post['message']) . "', '" . mysql_real_escape_string($post['password']) . "', '" . $post['file'] . "', '" . $post['file_hex'] . "', '" . mysql_real_escape_string($post['file_original']) . "', " . $post['file_size'] . ", '" . $post['file_size_formatted'] . "', " . $post['image_width'] . ", " . $post['image_height'] . ", '" . $post['thumb'] . "', " . $post['thumb_width'] . ", " . $post['thumb_height'] . ", " . $post['moderated'] . ", " . $post['stickied'] . ", " . $post['locked'] . ")");
 	}

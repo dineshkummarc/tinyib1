@@ -137,6 +137,24 @@ function pdoQuery($sql, $params = false) {
 }
 
 if (function_exists('insertPost')) {
+	function migrateAccount($account) {
+		global $dbh;
+		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBACCOUNTS . " (id, username, password, role, lastactive) VALUES (?, ?, ?, ?, ?)");
+		$stm->execute(array($account['id'], $account['username'], $account['password'], $account['role'], $account['lastactive']));
+	}
+
+	function migrateBan($ban) {
+		global $dbh;
+		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBBANS . " (id, ip, timestamp, expire, reason) VALUES (?, ?, ?, ?, ?)");
+		$stm->execute(array($ban['id'], $ban['ip'], $ban['timestamp'], $ban['expire'], $ban['reason']));
+	}
+
+	function migrateKeyword($keyword) {
+		global $dbh;
+		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBKEYWORDS . " (id, text, action) VALUES (?, ?, ?)");
+		$stm->execute(array($keyword['id'], $keyword['text'], $keyword['action']));
+	}
+
 	function migratePost($post) {
 		global $dbh;
 		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBPOSTS . " (id, parent, timestamp, bumped, ip, name, tripcode, email, nameblock, subject, message, password, file, file_hex, file_original, file_size, file_size_formatted, image_width, image_height, thumb, thumb_width, thumb_height, moderated, stickied, locked) " .
@@ -147,21 +165,9 @@ if (function_exists('insertPost')) {
 			$post['image_width'], $post['image_height'], $post['thumb'], $post['thumb_width'], $post['thumb_height'], $post['moderated'], $post['stickied'], $post['locked']));
 	}
 
-	function migrateBan($ban) {
-		global $dbh;
-		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBBANS . " (id, ip, timestamp, expire, reason) VALUES (?, ?, ?, ?, ?)");
-		$stm->execute(array($ban['id'], $ban['ip'], $ban['timestamp'], $ban['expire'], $ban['reason']));
-	}
-
 	function migrateReport($report) {
 		global $dbh;
 		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBREPORTS . " (id, ip, post) VALUES (?, ?, ?)");
 		$stm->execute(array($report['id'], $report['ip'], $report['post']));
-	}
-
-	function migrateKeyword($keyword) {
-		global $dbh;
-		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBKEYWORDS . " (id, text, action) VALUES (?, ?, ?)");
-		$stm->execute(array($keyword['id'], $keyword['text'], $keyword['action']));
 	}
 }

@@ -52,7 +52,7 @@ mysql_query("ALTER TABLE `" . TINYIB_DBBANS . "` MODIFY ip VARCHAR(255) NOT NULL
 
 if (function_exists('insertPost')) {
 	function migrateAccount($account) {
-		mysql_query("INSERT INTO " . TINYIB_DBACCOUNTS . " (id, username, password, role, lastactive) VALUES ('" . mysql_real_escape_string($account['id']) . "', '" . mysql_real_escape_string($account['username']) . "', '" . mysql_real_escape_string(hashData($account['password'])) . "', '" . mysql_real_escape_string($account['role']) . "', '" . mysql_real_escape_string($account['lastactive']) . "')");
+		mysql_query("INSERT INTO " . TINYIB_DBACCOUNTS . " (id, username, password, role, lastactive) VALUES ('" . mysql_real_escape_string($account['id']) . "', '" . mysql_real_escape_string($account['username']) . "', '" . mysql_real_escape_string($account['password']) . "', '" . mysql_real_escape_string($account['role']) . "', '" . mysql_real_escape_string($account['lastactive']) . "')");
 	}
 
 	function migrateBan($ban) {

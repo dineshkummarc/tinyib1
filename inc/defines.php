@@ -94,11 +94,17 @@ if (!defined('TINYIB_DATEFMT')) {
 if (!defined('TINYIB_DBMIGRATE')) {
 	define('TINYIB_DBMIGRATE', false);
 }
+if (!defined('TINYIB_DBACCOUNTS')) {
+	define('TINYIB_DBACCOUNTS', 'accounts');
+}
 if (!defined('TINYIB_DBREPORTS')) {
 	define('TINYIB_DBREPORTS', TINYIB_BOARD . '_reports');
 }
 if (!defined('TINYIB_DBKEYWORDS')) {
 	define('TINYIB_DBKEYWORDS', TINYIB_BOARD . '_keywords');
+}
+if (!defined('TINYIB_DBLOGS')) {
+	define('TINYIB_DBLOGS', 'logs');
 }
 if (!defined('TINYIB_DBPORT')) {
 	define('TINYIB_DBPORT', 3306);

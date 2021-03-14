@@ -53,6 +53,7 @@ if (!file_exists('settings.php')) {
 }
 require 'settings.php';
 require 'inc/defines.php';
+global $tinyib_capcodes, $tinyib_embeds, $tinyib_hidefields, $tinyib_hidefieldsop;
 
 if (!defined('TINYIB_LOCALE') || TINYIB_LOCALE == '') {
 	function __($string) {
@@ -700,10 +701,27 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 							fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to MySQL database modes. No migration is necessary.');
 						}
 
+						$sqlite_modes = array('sqlite', 'sqlite3');
+						if (in_array(TINYIB_DBMODE, $sqlite_modes) && in_array(TINYIB_DBMIGRATE, $sqlite_modes)) {
+							fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to SQLite database modes. No migration is necessary.');
+						}
+
 						if (!in_array(TINYIB_DBMIGRATE, $database_modes)) {
 							fancyDie(__('Unknown database mode specified.'));
 						}
 						require 'inc/database/' . TINYIB_DBMIGRATE . '_link.php';
+
+						// TODO migrate accounts
+
+						$bans = allBans();
+						foreach ($bans as $ban) {
+							migrateBan($ban);
+						}
+
+						$keywords = allKeywords();
+						foreach ($keywords as $keyword) {
+							migrateKeyword($keyword);
+						}
 
 						$threads = allThreads();
 						foreach ($threads as $thread) {
@@ -713,12 +731,12 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 							}
 						}
 
-						$bans = allBans();
-						foreach ($bans as $ban) {
-							migrateBan($ban);
+						$reports = allReports();
+						foreach ($reports as $report) {
+							migrateReport($report);
 						}
 
-						echo '<p><b>Database migration complete</b>.  Set TINYIB_DBMODE to mysqli and TINYIB_DBMIGRATE to false, then click <b>Rebuild All</b> above and ensure everything looks the way it should.</p>';
+						echo '<p><b>Database migration complete</b>.  Set TINYIB_DBMODE to the new database mode and TINYIB_DBMIGRATE to false, then click <b>Rebuild All</b> above and ensure everything looks and works as it should.</p>';
 					} else {
 						$text .= '<p>Your original database will not be deleted.  If the migration fails, disable the tool and your board will be unaffected.  See the <a href="https://gitlab.com/tslocum/tinyib#migrating" target="_blank">README</a> <small>(<a href="README.md" target="_blank">alternate link</a>)</small> for instructions.</a><br><br><a href="?manage&dbmigrate&go"><b>Start the migration</b></a></p>';
 					}

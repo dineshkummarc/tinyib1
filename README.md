@@ -14,7 +14,7 @@ See [TinyIB Installations](https://gitlab.com/tslocum/tinyib/wikis/Home) for dem
 
  - GIF, JPG, PNG, SWF, MP4 and WebM upload.
  - YouTube, Vimeo and SoundCloud embedding.
- - CAPTCHA
+ - CAPTCHA:
    - A simple, self-hosted implementation is included.
    - [hCaptcha](https://hcaptcha.com) is supported.
    - [ReCAPTCHA](https://www.google.com/recaptcha/about/) is supported. (But [not recommended](https://nearcyan.com/you-probably-dont-need-recaptcha/))
@@ -24,8 +24,10 @@ See [TinyIB Installations](https://gitlab.com/tslocum/tinyib/wikis/Home) for dem
  - Report posts.
  - Block keywords.
  - Management panel:
-   - Administrators and moderators use separate passwords.
-     - Moderators are only able to sticky threads, lock threads, delete posts, and approve posts when necessary.  (See ``TINYIB_REQMOD``)
+   - Staff account system:
+     - Super administrators (all privileges)
+     - Administrators (all privileges except account management)
+     - Moderators (only able to sticky threads, lock threads, approve posts and delete posts)
    - Ban offensive/abusive posters across all boards.
    - Post using raw HTML.
    - Upgrade automatically when installed via git.  (Tested on Linux only)
@@ -62,8 +64,7 @@ support in mind.
       - This library is usually installed by default.
       - If you plan on disabling image uploads to use TinyIB as a text board only, this library is not required.
      - [cURL Library](https://www.php.net/manual/en/book.curl.php)
-       - This is recommended, but is not strictly required except:
-         - When `TINYIB_CAPTCHA` is set to `hcaptcha` or `recaptcha`.
+       - This is recommended, but is not strictly required except when `TINYIB_CAPTCHA` is set to `hcaptcha` or `recaptcha`.
  2. CD to the directory you wish to install TinyIB.
  3. Run the command:
     - `git clone https://gitlab.com/tslocum/tinyib.git ./`

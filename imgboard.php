@@ -34,10 +34,8 @@ ini_set("display_errors", 1);
 session_start();
 setcookie(session_name(), session_id(), time() + 2592000);
 ob_implicit_flush();
-if (function_exists('ob_get_level')) {
-	while (ob_get_level() > 0) {
-		ob_end_flush();
-	}
+while (ob_get_level() > 0) {
+	ob_end_flush();
 }
 
 function fancyDie($message) {
@@ -74,6 +72,41 @@ if (!in_array(TINYIB_DBMODE, $database_modes)) {
 }
 
 if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
+	$accounts_sql = 'CREATE TABLE "' . TINYIB_DBACCOUNTS . '" (
+		"id" bigserial NOT NULL,
+		"username" varchar(255) NOT NULL,
+		"password" text NOT NULL,
+		"role" integer NOT NULL,
+		"lastactive" integer NOT NULL,
+		PRIMARY KEY	("id")
+	);';
+
+	$bans_sql = 'CREATE TABLE "' . TINYIB_DBBANS . '" (
+		"id" bigserial NOT NULL,
+		"ip" varchar(255) NOT NULL,
+		"timestamp" integer NOT NULL,
+		"expire" integer NOT NULL,
+		"reason" text NOT NULL,
+		PRIMARY KEY	("id")
+	);
+	CREATE INDEX ON "' . TINYIB_DBBANS . '"("ip");';
+
+	$keywords_sql = 'CREATE TABLE "' . TINYIB_DBKEYWORDS . '" (
+		"id" bigserial NOT NULL,
+		"text" varchar(255) NOT NULL,
+		"action" varchar(255) NOT NULL,
+		PRIMARY KEY	("id")
+	);';
+
+	$logs_sql = 'CREATE TABLE "' . TINYIB_DBLOGS . '" (
+		"id" bigserial NOT NULL,
+		"timestamp" integer NOT NULL,
+		"staff" integer NOT NULL,
+		"message" text NOT NULL,
+		PRIMARY KEY	("id")
+	);
+	CREATE INDEX ON "' . TINYIB_DBLOGS . '"("timestamp");';
+
 	$posts_sql = 'CREATE TABLE "' . TINYIB_DBPOSTS . '" (
 		"id" bigserial NOT NULL,
 		"parent" integer NOT NULL,
@@ -107,16 +140,6 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 	CREATE INDEX ON "' . TINYIB_DBPOSTS . '"("stickied");
 	CREATE INDEX ON "' . TINYIB_DBPOSTS . '"("moderated");';
 
-	$bans_sql = 'CREATE TABLE "' . TINYIB_DBBANS . '" (
-		"id" bigserial NOT NULL,
-		"ip" varchar(255) NOT NULL,
-		"timestamp" integer NOT NULL,
-		"expire" integer NOT NULL,
-		"reason" text NOT NULL,
-		PRIMARY KEY	("id")
-	);
-	CREATE INDEX ON "' . TINYIB_DBBANS . '"("ip");';
-
 	$reports_sql = 'CREATE TABLE "' . TINYIB_DBREPORTS . '" (
 		"id" bigserial NOT NULL,
 		"ip" varchar(255) NOT NULL,
@@ -124,13 +147,42 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 		PRIMARY KEY	("id")
 	);';
 
-	$keywords_sql = 'CREATE TABLE "' . TINYIB_DBKEYWORDS . '" (
-		"id" bigserial NOT NULL,
-		"text" varchar(255) NOT NULL,
-		"action" varchar(255) NOT NULL,
-		PRIMARY KEY	("id")
-	);';
 } else {
+	$accounts_sql = "CREATE TABLE `" . TINYIB_DBACCOUNTS . "` (
+		`id` mediumint(7) unsigned NOT NULL auto_increment,
+		`username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		`password` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		`role` mediumint(7) unsigned NOT NULL,
+		`lastactive` int(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		PRIMARY KEY	(`id`)
+	)";
+
+	$bans_sql = "CREATE TABLE `" . TINYIB_DBBANS . "` (
+		`id` mediumint(7) unsigned NOT NULL auto_increment,
+		`ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		`timestamp` int(20) NOT NULL,
+		`expire` int(20) NOT NULL,
+		`reason` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		PRIMARY KEY	(`id`),
+		KEY `ip` (`ip`)
+	)";
+
+	$keywords_sql = "CREATE TABLE `" . TINYIB_DBKEYWORDS . "` (
+		`id` mediumint(7) unsigned NOT NULL auto_increment,
+		`text` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		`action` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		PRIMARY KEY	(`id`)
+	)";
+
+	$logs_sql = "CREATE TABLE `" . TINYIB_DBLOGS . "` (
+		`id` mediumint(7) unsigned NOT NULL auto_increment,
+		`timestamp` int(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		`staff` mediumint(7) unsigned NOT NULL,
+		`message` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+		PRIMARY KEY	(`id`),
+		KEY `staff` (`staff`)
+	)";
+
 	$posts_sql = "CREATE TABLE `" . TINYIB_DBPOSTS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
 		`parent` mediumint(7) unsigned NOT NULL,
@@ -163,27 +215,10 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 		KEY `moderated` (`moderated`)
 	)";
 
-	$bans_sql = "CREATE TABLE `" . TINYIB_DBBANS . "` (
-		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-		`timestamp` int(20) NOT NULL,
-		`expire` int(20) NOT NULL,
-		`reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-		PRIMARY KEY	(`id`),
-		KEY `ip` (`ip`)
-	)";
-
 	$reports_sql = "CREATE TABLE `" . TINYIB_DBREPORTS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
 		`ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		`post` int(20) NOT NULL,
-		PRIMARY KEY	(`id`)
-	)";
-
-	$keywords_sql = "CREATE TABLE `" . TINYIB_DBKEYWORDS . "` (
-		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-		`action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`)
 	)";
 }
@@ -690,47 +725,49 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 					<p>If you installed TinyIB without Git, you must <a href="https://gitlab.com/tslocum/tinyib">update manually</a>.  If you did install with Git, ensure the script has read and write access to the <b>.git</b> folder.</p>';
 				}
 			} elseif (isset($_GET['dbmigrate'])) {
-				if (TINYIB_DBMIGRATE !== '' && TINYIB_DBMIGRATE !== false) {
+				if (TINYIB_DBMIGRATE !== '' && TINYIB_DBMIGRATE !== false && TINYIB_DBMODE != TINYIB_DBMIGRATE) {
+					$mysql_modes = array('mysql', 'mysqli');
+					if (in_array(TINYIB_DBMODE, $mysql_modes) && in_array(TINYIB_DBMIGRATE, $mysql_modes)) {
+						fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to MySQL database modes. No migration is necessary.');
+					}
+
+					$sqlite_modes = array('sqlite', 'sqlite3');
+					if (in_array(TINYIB_DBMODE, $sqlite_modes) && in_array(TINYIB_DBMIGRATE, $sqlite_modes)) {
+						fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to SQLite database modes. No migration is necessary.');
+					}
+
+					if (!in_array(TINYIB_DBMIGRATE, $database_modes)) {
+						fancyDie(__('Unknown database mode specified.'));
+					}
+
 					if (isset($_GET['go'])) {
-						if (TINYIB_DBMODE == TINYIB_DBMIGRATE) {
-							fancyDie('Set TINYIB_DBMIGRATE to the desired TINYIB_DBMODE and enter in any database related settings in settings.php before migrating.');
-						}
-
-						$mysql_modes = array('mysql', 'mysqli');
-						if (in_array(TINYIB_DBMODE, $mysql_modes) && in_array(TINYIB_DBMIGRATE, $mysql_modes)) {
-							fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to MySQL database modes. No migration is necessary.');
-						}
-
-						$sqlite_modes = array('sqlite', 'sqlite3');
-						if (in_array(TINYIB_DBMODE, $sqlite_modes) && in_array(TINYIB_DBMIGRATE, $sqlite_modes)) {
-							fancyDie('TINYIB_DBMODE and TINYIB_DBMIGRATE are both set to SQLite database modes. No migration is necessary.');
-						}
-
-						if (!in_array(TINYIB_DBMIGRATE, $database_modes)) {
-							fancyDie(__('Unknown database mode specified.'));
-						}
 						require 'inc/database/' . TINYIB_DBMIGRATE . '_link.php';
 
+						echo '<p>Migrating accounts...</p>';
 						$accounts = allAccounts();
 						foreach ($accounts as $account) {
 							migrateAccount($account);
 						}
 
+						echo '<p>Migrating bans...</p>';
 						$bans = allBans();
 						foreach ($bans as $ban) {
 							migrateBan($ban);
 						}
 
+						echo '<p>Migrating keywords...</p>';
 						$keywords = allKeywords();
 						foreach ($keywords as $keyword) {
 							migrateKeyword($keyword);
 						}
 
+						echo '<p>Migrating logs...</p>';
 						$logs = allLogs();
 						foreach ($logs as $log) {
 							migrateLog($log);
 						}
 
+						echo '<p>Migrating posts...</p>';
 						$threads = allThreads();
 						foreach ($threads as $thread) {
 							$posts = postsInThreadByID($thread['id']);
@@ -739,6 +776,7 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 							}
 						}
 
+						echo '<p>Migrating reports...</p>';
 						$reports = allReports();
 						foreach ($reports as $report) {
 							migrateReport($report);
@@ -746,10 +784,10 @@ if (!isset($_GET['delete']) && !isset($_GET['manage']) && (isset($_POST['name'])
 
 						echo '<p><b>Database migration complete</b>.  Set TINYIB_DBMODE to the new database mode and TINYIB_DBMIGRATE to false, then click <b>Rebuild All</b> above and ensure everything looks and works as it should.</p>';
 					} else {
-						$text .= '<p>Your original database will not be deleted.  If the migration fails, disable the tool and your board will be unaffected.  See the <a href="https://gitlab.com/tslocum/tinyib#migrating" target="_blank">README</a> <small>(<a href="README.md" target="_blank">alternate link</a>)</small> for instructions.</a><br><br><a href="?manage&dbmigrate&go"><b>Start the migration</b></a></p>';
+						$text .= '<p>Your original database will not be deleted.  If the migration fails, disable the tool and your board will be unaffected.  See the <a href="https://gitlab.com/tslocum/tinyib#migrating" target="_blank">README</a> for instructions.</a><br><br><a href="?manage&dbmigrate&go"><b>Start the migration</b></a></p>';
 					}
 				} else {
-					fancyDie('Set TINYIB_DBMIGRATE to true in settings.php to use this feature.');
+					fancyDie('Set TINYIB_DBMIGRATE to the desired TINYIB_DBMODE and enter in any database related settings in settings.php before migrating.');
 				}
 			}
 		}

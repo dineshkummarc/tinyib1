@@ -17,24 +17,29 @@ if (!$db_selected) {
 }
 mysqli_query($link, "SET NAMES 'utf8mb4'");
 
-// Create the posts table if it does not exist
-if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBPOSTS . "'")) == 0) {
-	mysqli_query($link, $posts_sql);
+// Create tables (when necessary)
+if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBACCOUNTS . "'")) == 0) {
+	mysqli_query($link, $accounts_sql);
 }
 
-// Create the bans table if it does not exist
 if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBBANS . "'")) == 0) {
 	mysqli_query($link, $bans_sql);
 }
 
-// Create the reports table if it does not exist
-if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBREPORTS . "'")) == 0) {
-	mysqli_query($link, $reports_sql);
-}
-
-// Create the keywords table if it does not exist
 if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBKEYWORDS . "'")) == 0) {
 	mysqli_query($link, $keywords_sql);
+}
+
+if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBLOGS . "'")) == 0) {
+	mysqli_query($link, $logs_sql);
+}
+
+if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBPOSTS . "'")) == 0) {
+	mysqli_query($link, $posts_sql);
+}
+
+if (mysqli_num_rows(mysqli_query($link, "SHOW TABLES LIKE '" . TINYIB_DBREPORTS . "'")) == 0) {
+	mysqli_query($link, $reports_sql);
 }
 
 if (mysqli_num_rows(mysqli_query($link, "SHOW COLUMNS FROM `" . TINYIB_DBPOSTS . "` LIKE 'stickied'")) == 0) {

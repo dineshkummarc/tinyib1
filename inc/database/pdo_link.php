@@ -28,19 +28,40 @@ try {
 	fancyDie("Failed to connect to the database: " . $e->getMessage());
 }
 
-// Create the posts table if it does not exist
+// Create tables (when necessary)
 if (TINYIB_DBDRIVER === 'pgsql') {
-	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBPOSTS);
-	$posts_exists = $dbh->query($query)->fetchColumn() != 0;
+	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBACCOUNTS);
+	$accounts_exists = $dbh->query($query)->fetchColumn() != 0;
 } else {
-	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBPOSTS));
-	$posts_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
+	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBaccountS));
+	$accounts_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
 }
-if (!$posts_exists) {
-	$dbh->exec($posts_sql);
+if (!$accounts_exists) {
+	$dbh->exec($accounts_sql);
 }
 
-// Create the bans table if it does not exist
+if (TINYIB_DBDRIVER === 'pgsql') {
+	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBLOGS);
+	$logs_exists = $dbh->query($query)->fetchColumn() != 0;
+} else {
+	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBLOGS));
+	$logs_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
+}
+if (!$logs_exists) {
+	$dbh->exec($logs_sql);
+}
+
+if (TINYIB_DBDRIVER === 'pgsql') {
+	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBKEYWORDS);
+	$keywords_exists = $dbh->query($query)->fetchColumn() != 0;
+} else {
+	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBKEYWORDS));
+	$keywords_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
+}
+if (!$keywords_exists) {
+	$dbh->exec($keywords_sql);
+}
+
 if (TINYIB_DBDRIVER === 'pgsql') {
 	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBBANS);
 	$bans_exists = $dbh->query($query)->fetchColumn() != 0;
@@ -52,7 +73,17 @@ if (!$bans_exists) {
 	$dbh->exec($bans_sql);
 }
 
-// Create the reports table if it does not exist
+if (TINYIB_DBDRIVER === 'pgsql') {
+	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBPOSTS);
+	$posts_exists = $dbh->query($query)->fetchColumn() != 0;
+} else {
+	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBPOSTS));
+	$posts_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
+}
+if (!$posts_exists) {
+	$dbh->exec($posts_sql);
+}
+
 if (TINYIB_DBDRIVER === 'pgsql') {
 	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBREPORTS);
 	$reports_exists = $dbh->query($query)->fetchColumn() != 0;
@@ -62,18 +93,6 @@ if (TINYIB_DBDRIVER === 'pgsql') {
 }
 if (!$reports_exists) {
 	$dbh->exec($reports_sql);
-}
-
-// Create the keywords table if it does not exist
-if (TINYIB_DBDRIVER === 'pgsql') {
-	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBKEYWORDS);
-	$keywords_exists = $dbh->query($query)->fetchColumn() != 0;
-} else {
-	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBKEYWORDS));
-	$keywords_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
-}
-if (!$keywords_exists) {
-	$dbh->exec($keywords_sql);
 }
 
 if (TINYIB_DBDRIVER === 'pgsql') {

@@ -11,7 +11,48 @@ if (!$db = sqlite_open(TINYIB_DBPATH, 0666, $error)) {
 	fancyDie("Could not connect to database: " . $error);
 }
 
-// Create the posts table if it does not exist
+// Create tables (when necessary)
+$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBACCOUNTS . "'");
+if (sqlite_num_rows($result) == 0) {
+	sqlite_query($db, "CREATE TABLE " . TINYIB_DBACCOUNTS . " (
+		id INTEGER PRIMARY KEY,
+		username TEXT NOT NULL,
+		password TEXT NOT NULL,
+		role INTEGER NOT NULL,
+		lastactive TIMESTAMP NOT NULL
+	)");
+}
+
+$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBBANS . "'");
+if (sqlite_num_rows($result) == 0) {
+	sqlite_query($db, "CREATE TABLE " . TINYIB_DBBANS . " (
+		id INTEGER PRIMARY KEY,
+		ip TEXT NOT NULL,
+		timestamp TIMESTAMP NOT NULL,
+		expire TIMESTAMP NOT NULL,
+		reason TEXT NOT NULL
+	)");
+}
+
+$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBKEYWORDS . "'");
+if (sqlite_num_rows($result) == 0) {
+	sqlite_query($db, "CREATE TABLE " . TINYIB_DBKEYWORDS . " (
+		id INTEGER PRIMARY KEY,
+		text TEXT NOT NULL,
+		action TEXT NOT NULL
+	)");
+}
+
+$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBLOGS . "'");
+if (sqlite_num_rows($result) == 0) {
+	sqlite_query($db, "CREATE TABLE " . TINYIB_DBLOGS . " (
+		id INTEGER PRIMARY KEY,
+		timestamp TIMESTAMP NOT NULL,
+		staff INTEGER NOT NULL,
+		message TEXT NOT NULL
+	)");
+}
+
 $result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBPOSTS . "'");
 if (sqlite_num_rows($result) == 0) {
 	sqlite_query($db, "CREATE TABLE " . TINYIB_DBPOSTS . " (
@@ -42,36 +83,12 @@ if (sqlite_num_rows($result) == 0) {
 		locked INTEGER NOT NULL DEFAULT '0'
 	)");
 }
-
-// Create the bans table if it does not exist
-$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBBANS . "'");
-if (sqlite_num_rows($result) == 0) {
-	sqlite_query($db, "CREATE TABLE " . TINYIB_DBBANS . " (
-		id INTEGER PRIMARY KEY,
-		ip TEXT NOT NULL,
-		timestamp TIMESTAMP NOT NULL,
-		expire TIMESTAMP NOT NULL,
-		reason TEXT NOT NULL
-	)");
-}
-
-// Create the reports table if it does not exist
 $result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBREPORTS . "'");
 if (sqlite_num_rows($result) == 0) {
 	sqlite_query($db, "CREATE TABLE " . TINYIB_DBREPORTS . " (
 		id INTEGER PRIMARY KEY,
 		ip TEXT NOT NULL,
 		post INTEGER NOT NULL
-	)");
-}
-
-// Create the keywords table if it does not exist
-$result = sqlite_query($db, "SELECT name FROM sqlite_master WHERE type='table' AND name='" . TINYIB_DBKEYWORDS . "'");
-if (sqlite_num_rows($result) == 0) {
-	sqlite_query($db, "CREATE TABLE " . TINYIB_DBKEYWORDS . " (
-		id INTEGER PRIMARY KEY,
-		text TEXT NOT NULL,
-		action TEXT NOT NULL
 	)");
 }
 

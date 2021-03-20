@@ -17,32 +17,27 @@ if (!$db_selected) {
 }
 mysql_query("SET NAMES 'utf8mb4'");
 
-// Create the accounts table if it does not exist
+// Create tables (when necessary)
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBACCOUNTS . "'")) == 0) {
 	mysql_query($accounts_sql);
 }
 
-// Create the bans table if it does not exist
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBBANS . "'")) == 0) {
 	mysql_query($bans_sql);
 }
 
-// Create the keywords table if it does not exist
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBKEYWORDS . "'")) == 0) {
 	mysql_query($keywords_sql);
 }
 
-// Create the logs table if it does not exist
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBLOGS . "'")) == 0) {
 	mysql_query($logs_sql);
 }
 
-// Create the posts table if it does not exist
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBPOSTS . "'")) == 0) {
 	mysql_query($posts_sql);
 }
 
-// Create the reports table if it does not exist
 if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '" . TINYIB_DBREPORTS . "'")) == 0) {
 	mysql_query($reports_sql);
 }

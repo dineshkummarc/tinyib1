@@ -105,7 +105,7 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 		"message" text NOT NULL,
 		PRIMARY KEY	("id")
 	);
-	CREATE INDEX ON "' . TINYIB_DBLOGS . '"("timestamp");';
+	CREATE INDEX ON "' . TINYIB_DBLOGS . '"("staff");';
 
 	$posts_sql = 'CREATE TABLE "' . TINYIB_DBPOSTS . '" (
 		"id" bigserial NOT NULL,

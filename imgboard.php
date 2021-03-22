@@ -176,7 +176,7 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 
 	$logs_sql = "CREATE TABLE `" . TINYIB_DBLOGS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`timestamp` int(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+		`timestamp` int(20),
 		`account` mediumint(7) unsigned NOT NULL,
 		`message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`),

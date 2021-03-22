@@ -33,7 +33,7 @@ if (TINYIB_DBDRIVER === 'pgsql') {
 	$query = "SELECT COUNT(*) FROM pg_catalog.pg_tables WHERE tablename LIKE " . $dbh->quote(TINYIB_DBACCOUNTS);
 	$accounts_exists = $dbh->query($query)->fetchColumn() != 0;
 } else {
-	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBaccountS));
+	$dbh->query("SHOW TABLES LIKE " . $dbh->quote(TINYIB_DBACCOUNTS));
 	$accounts_exists = $dbh->query("SELECT FOUND_ROWS()")->fetchColumn() != 0;
 }
 if (!$accounts_exists) {

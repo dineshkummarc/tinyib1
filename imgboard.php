@@ -150,8 +150,8 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 } else {
 	$accounts_sql = "CREATE TABLE `" . TINYIB_DBACCOUNTS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
-		`password` text CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+		`password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		`role` mediumint(7) unsigned NOT NULL,
 		`lastactive` int(20) NOT NULL,
 		PRIMARY KEY	(`id`)
@@ -159,26 +159,26 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 
 	$bans_sql = "CREATE TABLE `" . TINYIB_DBBANS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		`timestamp` int(20) NOT NULL,
 		`expire` int(20) NOT NULL,
-		`reason` text CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`),
 		KEY `ip` (`ip`)
 	)";
 
 	$keywords_sql = "CREATE TABLE `" . TINYIB_DBKEYWORDS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
-		`action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+		`action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`)
 	)";
 
 	$logs_sql = "CREATE TABLE `" . TINYIB_DBLOGS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
-		`timestamp` int(20) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`timestamp` int(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		`staff` mediumint(7) unsigned NOT NULL,
-		`message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`),
 		KEY `staff` (`staff`)
 	)";

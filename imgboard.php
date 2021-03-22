@@ -234,7 +234,7 @@ foreach ($writedirs as $dir) {
 	}
 }
 
-$includes = array('inc/functions.php', 'inc/html.php', 'inc/database/' . TINYIB_DBMODE . '_link.php', 'inc/database/' . TINYIB_DBMODE . '.php', 'inc/database.php');
+$includes = array('inc/functions.php', 'inc/html.php', 'inc/database/' . TINYIB_DBMODE . '_link.php', 'inc/database/' . TINYIB_DBMODE . '.php', 'inc/database/database.php');
 foreach ($includes as $include) {
 	require $include;
 }

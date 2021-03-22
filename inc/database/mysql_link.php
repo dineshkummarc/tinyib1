@@ -69,7 +69,7 @@ if (function_exists('insertPost')) {
 	}
 
 	function migrateLog($log) {
-		mysql_query("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . mysql_real_escape_string($log['id']) . "', '" . mysql_real_escape_string($log['timestamp']) . "', '" . mysql_real_escape_string($log['staff']) . "', '" . mysql_real_escape_string($log['message']) . "')");
+		mysql_query("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, account, message) VALUES ('" . mysql_real_escape_string($log['id']) . "', '" . mysql_real_escape_string($log['timestamp']) . "', '" . mysql_real_escape_string($log['account']) . "', '" . mysql_real_escape_string($log['message']) . "')");
 	}
 
 	function migratePost($post) {

@@ -29,7 +29,7 @@ define('KEYWORD_ACTION', 2);
 define('LOGS_FILE', '.logs');
 define('LOG_ID', 0);
 define('LOG_TIMESTAMP', 1);
-define('LOG_STAFF', 2);
+define('LOG_ACCOUNT', 2);
 define('LOG_MESSAGE', 3);
 
 // Posts table
@@ -107,7 +107,7 @@ if (function_exists('insertPost')) {
 		$log = array();
 		$log[LOG_ID] = $l['id'];
 		$log[LOG_TIMESTAMP] = $l['timestamp'];
-		$log[LOG_STAFF] = $l['staff'];
+		$log[LOG_ACCOUNT] = $l['account'];
 		$log[LOG_MESSAGE] = $l['message'];
 		$GLOBALS['db']->insertWithAutoId(LOGS_FILE, LOG_ID, $log);
 	}

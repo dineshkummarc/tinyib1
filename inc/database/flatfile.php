@@ -441,7 +441,7 @@ function convertLogsToSQLStyle($logs, $single = false) {
 		$log = array();
 		$log['id'] = $l[LOG_ID];
 		$log['timestamp'] = $l[LOG_TIMESTAMP];
-		$log['staff'] = $l[LOG_STAFF];
+		$log['account'] = $l[LOG_ACCOUNT];
 		$log['message'] = $l[LOG_MESSAGE];
 
 		if ($single) {
@@ -456,7 +456,7 @@ function insertLog($l) {
 	$log = array();
 	$log['id'] = '0';
 	$log['timestamp'] = $l[LOG_TIMESTAMP];
-	$log['staff'] = $l[LOG_STAFF];
+	$log['account'] = $l[LOG_ACCOUNT];
 	$log['message'] = $l[LOG_MESSAGE];
 
 	$GLOBALS['db']->insertWithAutoId(LOGS_FILE, LOG_ID, $log);

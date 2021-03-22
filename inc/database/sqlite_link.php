@@ -48,7 +48,7 @@ if (sqlite_num_rows($result) == 0) {
 	sqlite_query($db, "CREATE TABLE " . TINYIB_DBLOGS . " (
 		id INTEGER PRIMARY KEY,
 		timestamp TIMESTAMP NOT NULL,
-		staff INTEGER NOT NULL,
+		account INTEGER NOT NULL,
 		message TEXT NOT NULL
 	)");
 }
@@ -115,7 +115,7 @@ if (function_exists('insertPost')) {
 	}
 
 	function migrateLog($log) {
-		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . sqlite_escape_string($log['id']) . "', '" . sqlite_escape_string($log['timestamp']) . "', '" . sqlite_escape_string($log['staff']) . "', '" . sqlite_escape_string($log['message']) . "')");
+		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, account, message) VALUES ('" . sqlite_escape_string($log['id']) . "', '" . sqlite_escape_string($log['timestamp']) . "', '" . sqlite_escape_string($log['account']) . "', '" . sqlite_escape_string($log['message']) . "')");
 	}
 
 	function migratePost($post) {

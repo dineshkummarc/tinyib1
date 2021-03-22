@@ -176,8 +176,8 @@ if (function_exists('insertPost')) {
 
 	function migrateLog($log) {
 		global $dbh;
-		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES (?, ?, ?, ?)");
-		$stm->execute(array($log['id'], $log['timestamp'], $log['staff'], $log['message']));
+		$stm = $dbh->prepare("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, account, message) VALUES (?, ?, ?, ?)");
+		$stm->execute(array($log['id'], $log['timestamp'], $log['account'], $log['message']));
 	}
 
 	function migratePost($post) {

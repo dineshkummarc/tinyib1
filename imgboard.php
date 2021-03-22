@@ -101,11 +101,11 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 	$logs_sql = 'CREATE TABLE "' . TINYIB_DBLOGS . '" (
 		"id" bigserial NOT NULL,
 		"timestamp" integer NOT NULL,
-		"staff" integer NOT NULL,
+		"account" integer NOT NULL,
 		"message" text NOT NULL,
 		PRIMARY KEY	("id")
 	);
-	CREATE INDEX ON "' . TINYIB_DBLOGS . '"("staff");';
+	CREATE INDEX ON "' . TINYIB_DBLOGS . '"("account");';
 
 	$posts_sql = 'CREATE TABLE "' . TINYIB_DBPOSTS . '" (
 		"id" bigserial NOT NULL,
@@ -177,10 +177,10 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 	$logs_sql = "CREATE TABLE `" . TINYIB_DBLOGS . "` (
 		`id` mediumint(7) unsigned NOT NULL auto_increment,
 		`timestamp` int(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-		`staff` mediumint(7) unsigned NOT NULL,
+		`account` mediumint(7) unsigned NOT NULL,
 		`message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 		PRIMARY KEY	(`id`),
-		KEY `staff` (`staff`)
+		KEY `account` (`account`)
 	)";
 
 	$posts_sql = "CREATE TABLE `" . TINYIB_DBPOSTS . "` (

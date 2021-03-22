@@ -49,7 +49,7 @@ if (!$result->fetchArray()) {
 	$db->exec("CREATE TABLE " . TINYIB_DBLOGS . " (
 		id INTEGER PRIMARY KEY,
 		timestamp TIMESTAMP NOT NULL,
-		staff INTEGER NOT NULL,
+		account INTEGER NOT NULL,
 		message TEXT NOT NULL
 	)");
 }
@@ -121,7 +121,7 @@ if (function_exists('insertPost')) {
 
 	function migrateLog($log) {
 		global $db;
-		$db->exec("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . $db->escapeString($log['id']) . "', '" . $db->escapeString($log['timestamp']) . "', '" . $db->escapeString($log['staff']) . "', '" . $db->escapeString($log['message']) . "')");
+		$db->exec("INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, account, message) VALUES ('" . $db->escapeString($log['id']) . "', '" . $db->escapeString($log['timestamp']) . "', '" . $db->escapeString($log['account']) . "', '" . $db->escapeString($log['message']) . "')");
 	}
 
 	function migratePost($post) {

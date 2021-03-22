@@ -73,7 +73,7 @@ if (function_exists('insertPost')) {
 
 	function migrateLog($log) {
 		global $link;
-		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, staff, message) VALUES ('" . mysqli_real_escape_string($link, $log['id']) . "', '" . mysqli_real_escape_string($link, $log['timestamp']) . "', '" . mysqli_real_escape_string($link, $log['staff']) . "', '" . mysqli_real_escape_string($link, $log['message']) . "')");
+		sqlite_query($GLOBALS["db"], "INSERT INTO " . TINYIB_DBLOGS . " (id, timestamp, account, message) VALUES ('" . mysqli_real_escape_string($link, $log['id']) . "', '" . mysqli_real_escape_string($link, $log['timestamp']) . "', '" . mysqli_real_escape_string($link, $log['account']) . "', '" . mysqli_real_escape_string($link, $log['message']) . "')");
 	}
 
 	function migratePost($post) {

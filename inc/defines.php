@@ -8,6 +8,10 @@ define('TINYIB_INDEXPAGE', false);
 define('TINYIB_RESPAGE', true);
 define('TINYIB_WORDBREAK_IDENTIFIER', '@!@TINYIB_WORDBREAK@!@');
 
+define('TINYIB_SUPER_ADMINISTRATOR', 1);
+define('TINYIB_ADMINISTRATOR', 2);
+define('TINYIB_MODERATOR', 3);
+
 // The following are provided for backward compatibility and should not be relied upon
 // Copy new settings from settings.default.php to settings.php
 if (!defined('TINYIB_LOCALE')) {

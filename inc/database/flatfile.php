@@ -9,6 +9,22 @@ function allAccounts() {
 	return convertAccountsToSQLStyle($rows);
 }
 
+function accountByUsername($username) {
+	$rows = $GLOBALS['db']->selectWhere(ACCOUNTS_FILE, new SimpleWhereClause(ACCOUNT_USERNAME, '=', $username, STRING_COMPARISON), 1);
+	if (isset($rows[0])) {
+		return $rows[0];
+	}
+	return array();
+}
+
+function accountByID($id) {
+	$rows = $GLOBALS['db']->selectWhere(ACCOUNTS_FILE, new SimpleWhereClause(ACCOUNT_ID, '=', $id, INTEGER_COMPARISON), 1);
+	if (isset($rows[0])) {
+		return $rows[0];
+	}
+	return array();
+}
+
 function convertAccountsToSQLStyle($accounts, $single = false) {
 	$newaccounts = array();
 	foreach ($accounts as $a) {
@@ -29,13 +45,18 @@ function convertAccountsToSQLStyle($accounts, $single = false) {
 
 function insertAccount($a) {
 	$account = array();
-	$account['id'] = '0';
-	$account['username'] = $a[ACCOUNT_USERNAME];
-	$account['password'] = $a[ACCOUNT_PASSWORD];
-	$account['role'] = $a[ACCOUNT_ROLE];
-	$account['lastactive'] = $a[ACCOUNT_LASTACTIVE];
+	$account[ACCOUNT_ID] = '0';
+	$account[ACCOUNT_USERNAME] = $a['username'];
+	$account[ACCOUNT_PASSWORD] =  hashData($a['password']);
+	$account[ACCOUNT_ROLE] = $a['role'];
+	$account[ACCOUNT_LASTACTIVE] = $a['lastactive'];
 
-	$GLOBALS['db']->insertWithAutoId(ACCOUNTS_FILE, ACCOUNT_ID, $account);
+	$GLOBALS['db']->insertWithAutoId(ACCOUNTS_FILE, ACCOUNT_ID, $a);
+}
+
+function updateAccount($a) {
+	$a['password'] = hashData($a['password']);
+	$GLOBALS['db']->updateRowById(ACCOUNTS_FILE, ACCOUNT_ID, $a);
 }
 
 function deleteAccount($id) {
@@ -365,6 +386,7 @@ function keywordByID($id) {
 	$clause = new SimpleWhereClause(KEYWORD_ID, '=', $id, INTEGER_COMPARISON);
 	return convertKeywordsToSQLStyle($GLOBALS['db']->selectWhere(KEYWORDS_FILE, $clause, 1), true);
 }
+
 function keywordByText($text) {
 	$text = strtolower($text);
 	$clause = new SimpleWhereClause(KEYWORD_TEXT, '=', $text, STRING_COMPARISON);

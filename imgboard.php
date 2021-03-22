@@ -153,7 +153,7 @@ if (TINYIB_DBMODE == 'pdo' && TINYIB_DBDRIVER == 'pgsql') {
 		`username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
 		`password` text CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
 		`role` mediumint(7) unsigned NOT NULL,
-		`lastactive` int(20) CHARACTER SET utf8mb4 COLLATE utf8mn4_unicode_ci NOT NULL,
+		`lastactive` int(20) NOT NULL,
 		PRIMARY KEY	(`id`)
 	)";
 
@@ -234,7 +234,7 @@ foreach ($writedirs as $dir) {
 	}
 }
 
-$includes = array('inc/functions.php', 'inc/html.php', 'inc/database/' . TINYIB_DBMODE . '_link.php', 'inc/database/' . TINYIB_DBMODE . '.php');
+$includes = array('inc/functions.php', 'inc/html.php', 'inc/database/' . TINYIB_DBMODE . '_link.php', 'inc/database/' . TINYIB_DBMODE . '.php', 'inc/database.php');
 foreach ($includes as $include) {
 	require $include;
 }

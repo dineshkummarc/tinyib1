@@ -857,7 +857,8 @@ function manageLogInForm() {
 	<fieldset>
 	<legend align="center">$txt_login_prompt</legend>
 	<div class="login">
-	<input type="password" id="managepassword" name="managepassword"><br>
+	<input type="text" id="username" name="username" placeholder="Username"><br>
+	<input type="password" id="managepassword" name="managepassword" placeholder="Password"><br>
 	$captcha_inner_html
 	<input type="submit" value="$txt_login" class="managebutton">
 	</div>

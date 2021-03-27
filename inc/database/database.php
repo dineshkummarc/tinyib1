@@ -2,7 +2,7 @@
 
 if (TINYIB_ADMINPASS != '') {
 	$admin = accountByUsername('admin');
-	if (count($admin) > 0) {
+	if (!empty($admin)) {
 		$admin['password'] = TINYIB_ADMINPASS;
 		updateAccount($admin);
 	} else {
@@ -13,7 +13,7 @@ if (TINYIB_ADMINPASS != '') {
 
 if (TINYIB_MODPASS != '') {
 	$mod = accountByUsername('mod');
-	if (count($mod) > 0) {
+	if (!empty($mod)) {
 		$mod['password'] = TINYIB_MODPASS;
 		updateAccount($mod);
 	} else {

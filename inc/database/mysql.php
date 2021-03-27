@@ -2,6 +2,39 @@
 if (!defined('TINYIB_BOARD')) {
 	die('');
 }
+// Account functions
+function allAccounts($username) {
+	$result = mysql_query("SELECT * FROM `" . TINYIB_DBACCOUNTS . "` ORDER BY `role` ASC, `username` ASC");
+	if ($result) {
+		while ($post = mysql_fetch_assoc($result)) {
+			return $post;
+		}
+	}
+}
+
+function accountByUsername($username) {
+	$result = mysql_query("SELECT * FROM `" . TINYIB_DBACCOUNTS . "` WHERE `id` = '" . mysql_real_escape_string($id) . "' LIMIT 1");
+	if ($result) {
+		while ($post = mysql_fetch_assoc($result)) {
+			return $post;
+		}
+	}
+}
+
+function accountByID($id) {
+	$result = mysql_query("SELECT * FROM `" . TINYIB_DBACCOUNTS . "` WHERE `id` = '" . mysql_real_escape_string($id) . "' LIMIT 1");
+	if ($result) {
+		while ($post = mysql_fetch_assoc($result)) {
+			return $post;
+		}
+	}
+}
+
+function insertAccount($post) {
+	mysql_query("INSERT INTO `" . TINYIB_DBPOSTS . "` (`parent`, `timestamp`, `bumped`, `ip`, `name`, `tripcode`, `email`, `nameblock`, `subject`, `message`, `password`, `file`, `file_hex`, `file_original`, `file_size`, `file_size_formatted`, `image_width`, `image_height`, `thumb`, `thumb_width`, `thumb_height`, `moderated`) VALUES (" . $post['parent'] . ", " . time() . ", " . time() . ", '" . hashData($_SERVER['REMOTE_ADDR']) . "', '" . mysql_real_escape_string($post['name']) . "', '" . mysql_real_escape_string($post['tripcode']) . "',	'" . mysql_real_escape_string($post['email']) . "',	'" . mysql_real_escape_string($post['nameblock']) . "', '" . mysql_real_escape_string($post['subject']) . "', '" . mysql_real_escape_string($post['message']) . "', '" . mysql_real_escape_string($post['password']) . "', '" . $post['file'] . "', '" . $post['file_hex'] . "', '" . mysql_real_escape_string($post['file_original']) . "', " . $post['file_size'] . ", '" . $post['file_size_formatted'] . "', " . $post['image_width'] . ", " . $post['image_height'] . ", '" . $post['thumb'] . "', " . $post['thumb_width'] . ", " . $post['thumb_height'] . ", " . $post['moderated'] . ")");
+	return mysql_insert_id();
+}
+
 
 // Post functions
 function uniquePosts() {
